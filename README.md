@@ -1,6 +1,8 @@
 # Global installs:
 
-npm install -g @angular/cli
+`npm install -g @angular/cli`
+
+`nvm use 14.20.0`
 
 # RgAssignmentStarter
 

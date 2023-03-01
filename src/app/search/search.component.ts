@@ -18,8 +18,18 @@ export class SearchComponent implements OnInit {
   public ngOnInit(): void {
   }
 
+
+
   public updateResults(city: City): void {
     let results = this.service.getWeatherByCity(city);
     // TODO set results
+    this.results = results;
+  }
+
+  public onSearch(city: string): void {
+    const cityToSearch = this.cities.find(c => c.name === city);
+    this.updateResults(cityToSearch as City)
+    console.log(city)
+    console.log(this.results)
   }
 }
