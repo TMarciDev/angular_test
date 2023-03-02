@@ -11,25 +11,16 @@ export interface WeatherRow {
 @Injectable({ providedIn: "root" })
 export class SearchService {
   public getWeatherByCity(city: City): WeatherRow[] {
-    let cityWeather = WEATHER_DATA[0]; // INDEX 0: Budapest ( TODO: city search )
-
-    let date1 = cityWeather.hourly.time[0];
-    let temp1 = cityWeather.hourly.temperature_2m[0];
-    let date2 = cityWeather.hourly.time[1];
-    let temp2 = cityWeather.hourly.temperature_2m[1];
-
+    let cityWeather = WEATHER_DATA.find(data => data.city === city.name)
+    if(!cityWeather) return [];
     // TODO assemble results based on input city
-    return [
-      {
-        date: date1,
-        time: '1111',
-        temp: temp1
-      },
-      {
-        date: date2,
-        time: '222',
-        temp: temp2
+    return cityWeather.hourly.time.map((t: string, idx: number) => {
+      const splittedTime = t.split('T');
+      return {
+        date: splittedTime[0].replaceAll('-', '. '),
+        time: splittedTime[1],
+        temp: cityWeather?.hourly.temperature_2m[idx] as number
       }
-    ];
+    })
   }
 }

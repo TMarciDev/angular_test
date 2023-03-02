@@ -15,30 +15,39 @@
     </button>
   </div>
   <div>
-    <h1>Budapest</h1>
-    <!-- TODO this should match the selected city-->
-    <table>
-      <tr>
+    <h1>{{ selectedCity }}</h1>
+    <!--table>
+      <tr *ngIf="selectedCity != ''">
         <th>Dátum</th>
         <th>Idő</th>
         <th>Várható hőmérséklet</th>
       </tr>
-      <!-- TODO the table rows should come from the results property -->
-      <tr>
-        <td>2022. 07. 21</td>
-        <td>0:00</td>
-        <td>27 °C</td>
+      <tr *ngFor="let result of results">
+        <td>{{ result.date }}</td>
+        <td>{{ result.time }}</td>
+        <td>{{ result.temp }} °C</td>
       </tr>
-      <tr>
-        <td>2022. 07. 21</td>
-        <td>1:00</td>
-        <td>26 °C</td>
-      </tr>
-      <tr>
-        <td>2022. 07. 21</td>
-        <td>2:00</td>
-        <td>24 °C</td>
-      </tr>
-    </table>
+    </table!-->
+    <div *ngIf="selectedCity != ''">
+      <table mat-table [dataSource]="dataSource">
+        <ng-container
+          [matColumnDef]="column"
+          *ngFor="let column of displayedColumns"
+        >
+          <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+          <td mat-cell *matCellDef="let data">
+            {{ data[column] }} {{ column === "temp" ? "°C" : "" }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let datarow; columns: displayedColumns"></tr>
+      </table>
+      <mat-paginator
+        #paginator
+        [pageSizeOptions]="[2, 4, 6]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
   </div>
 </mat-card>
