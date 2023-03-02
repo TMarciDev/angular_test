@@ -33,10 +33,9 @@ export class SearchComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.results);
     this.dataSource.paginator = this.paginator as MatPaginator;
 }
-
   public updateResults(city: City): void {
     
-    const handleResults = (res : any) => {
+    const handleResults = (res : WeatherRow[]) => {
       this.results = res;
       this.dataSource = new MatTableDataSource(res)
       this.dataSource.paginator = this.paginator as MatPaginator;

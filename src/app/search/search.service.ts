@@ -16,7 +16,7 @@ export class SearchService {
     //response interface not provided?
     return this.http.get(`https://api.open-meteo.com/v1/forecast?latitude=${city.latitude}&longitude=${city.longitude}&hourly=temperature_2m`)
   }
-  public getWeatherByCity(city: City, handleResults: any): void{
+  public getWeatherByCity(city: City, handleResults: (res: WeatherRow[]) => void): void{
     this.get(city).subscribe(
       (res : any) => {
         const data = res.hourly.time.map((t: string, idx: number) => {
@@ -27,7 +27,6 @@ export class SearchService {
             temp: res.hourly.temperature_2m[idx] as number
           }
         })
-        console.log(data)
         handleResults(data)
       });
   }
