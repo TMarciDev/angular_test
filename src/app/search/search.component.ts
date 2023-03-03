@@ -32,6 +32,7 @@ export class SearchComponent implements OnInit {
   }
 
   public onSearch(city: string): void {
+    if(!city) return;
     const cityToSearch = this.cities.find(c => c.name === city);
     this.updateResults(cityToSearch as City)
   }

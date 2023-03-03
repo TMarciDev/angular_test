@@ -1,17 +1,20 @@
-<mat-card>
-  <h1>Régens időjárás előrejelzés</h1>
-  <div>Add meg a települést</div>
-  <div>
-    <mat-form-field>
-      <mat-select #cities_selector>
-        <!-- TODO use the cities array to populate this select with options -->
-        <mat-option *ngFor="let city of cities" [value]="city.name">{{
-          city.name
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <button (click)="onSearch(cities_selector.value)">
-      Mutasd az időjárást
-    </button>
+<div class="main-card">
+  <div class="card-inner-container">
+    <h1>Régens időjárás előrejelzés</h1>
+    <div>Add meg a települést</div>
+    <div>
+      <mat-form-field>
+        <mat-select #cities_selector>
+          <mat-option *ngFor="let city of cities" [value]="city.name">{{
+            city.name
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="card-button-container">
+        <button (click)="onSearch(cities_selector.value)">
+          Mutasd az időjárást
+        </button>
+      </div>
+    </div>
   </div>
-</mat-card>
+</div>
