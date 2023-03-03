@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { City } from "../data/cities";
 import { WEATHER_DATA } from "../data/weather";
@@ -10,15 +11,23 @@ export interface WeatherRow {
 
 @Injectable({ providedIn: "root" })
 export class SearchService {
-  public getWeatherByCity(city: City): WeatherRow[] {
-    let cityWeather = WEATHER_DATA[0];
-
-    let date1 = cityWeather.hourly.time[0];
-    let temp1 = cityWeather.hourly.temperature_2m[0];
-    let date2 = cityWeather.hourly.time[1];
-    let temp2 = cityWeather.hourly.temperature_2m[1];
-
-    // TODO assemble results based on input city
-    return [];
+  constructor(private http: HttpClient) { }
+  get(city: City) {
+    //response interface not provided?
+    return this.http.get(`https://api.open-meteo.com/v1/forecast?latitude=${city.latitude}&longitude=${city.longitude}&hourly=temperature_2m`)
+  }
+  public getWeatherByCity(city: City, handleResults: (res: WeatherRow[]) => void): void{
+    this.get(city).subscribe(
+      (res : any) => {
+        const data = res.hourly.time.map((t: string, idx: number) => {
+          const splittedTime = t.split('T');
+          return {
+            date: splittedTime[0].replaceAll('-', '. '),
+            time: splittedTime[1],
+            temp: res.hourly.temperature_2m[idx] as number
+          }
+        })
+        handleResults(data)
+      });
   }
 }
