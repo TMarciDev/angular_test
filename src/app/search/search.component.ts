@@ -3,6 +3,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { CITIES, City } from "../data/cities";
 import { SearchService, WeatherRow } from "./search.service";
+
+import { Router } from '@angular/router';
+
 @Component({
   selector: "search",
   templateUrl: "./search.component.html",
@@ -11,42 +14,24 @@ import { SearchService, WeatherRow } from "./search.service";
 export class SearchComponent implements OnInit {
   
   cities: City[] = CITIES;
-  selectedCity:string = '';
-  results: WeatherRow[] = [];
 
-  displayedColumns: string[] = [
-    'date',
-    'time',
-    'temp'
-  ];
-
-  dataSource = new MatTableDataSource(this.results)
-  
-  constructor(private service: SearchService) {
+  constructor(private service: SearchService, private router: Router) {
   }
-  @ViewChild('paginator') paginator: MatPaginator | undefined;
 
   public ngOnInit(): void {
   }
 
-  ngAfterViewInit() {
-    this.dataSource = new MatTableDataSource(this.results);
-    this.dataSource.paginator = this.paginator as MatPaginator;
-}
+
   public updateResults(city: City): void {
     
     const handleResults = (res : WeatherRow[]) => {
-      this.results = res;
-      this.dataSource = new MatTableDataSource(res)
-      this.dataSource.paginator = this.paginator as MatPaginator;
+      this.router.navigateByUrl('/results', { state: {cityName: city.name, results: res} });
     }
     
     this.service.getWeatherByCity(city, handleResults)
-
   }
 
   public onSearch(city: string): void {
-    this.selectedCity = city;
     const cityToSearch = this.cities.find(c => c.name === city);
     this.updateResults(cityToSearch as City)
   }
