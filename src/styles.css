@@ -1,4 +1,33 @@
-/* You can add global styles to this file, and also import other style files */
+
+:root {
+    --blue: #1e90ff;
+    --white: #ffffff;
+}
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-image: url(assets/background.jpg); 
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.main-card {
+    width: 500px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 15px 30px #00000080;
+    border-radius: 30px;
+    opacity: 0.8;
+}
+
+.card-inner-container {
+    padding: 20px;
+}
+
+h1 {
+    font-weight: 900;
+}
